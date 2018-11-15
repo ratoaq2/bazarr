@@ -1,5 +1,3 @@
-bazarr_version = '0.6.7.1'
-
 import gc
 gc.enable()
 
@@ -15,10 +13,15 @@ import os
 import sys
 import signal
 import sqlite3
+import bazarr
+
+bazarr_version = bazarr.VERSION
+
 from init import *
 from update_db import *
 from notifier import update_notifier
 update_notifier()
+bazarr.initialize()
 
 
 from get_settings import get_general_settings, get_proxy_settings
@@ -70,7 +73,7 @@ from get_series import *
 from get_episodes import *
 from get_settings import base_url, ip, port, path_replace, path_replace_movie
 if no_update is False:
-    from check_update import check_and_apply_update
+    from check_update import update
 from list_subtitles import store_subtitles, store_subtitles_movie, series_scan_subtitles, movies_scan_subtitles, list_missing_subtitles, list_missing_subtitles_movies
 from get_subtitle import download_subtitle, series_download_subtitles, movies_download_subtitles, wanted_download_subtitles, wanted_search_missing_subtitles, manual_search, manual_download_subtitle
 from utils import history_log, history_log_movie
@@ -1332,9 +1335,22 @@ def check_update():
     ref = request.environ['HTTP_REFERER']
 
     if no_update is False:
-        check_and_apply_update()
+        check_updates()
 
     redirect(ref)
+
+
+@route(base_url + 'update')
+@custom_auth_basic(check_credentials)
+def git_update():
+    authorize()
+    ref = request.environ['HTTP_REFERER']
+
+    if no_update is False:
+        update()
+
+    redirect(ref)
+
 
 @route(base_url + 'system')
 @custom_auth_basic(check_credentials)
