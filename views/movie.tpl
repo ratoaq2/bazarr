@@ -348,7 +348,8 @@
 			language: $(this).attr("data-language"),
 			hi: $(this).attr("data-hi"),
 			radarrId: $(this).attr("data-radarrId"),
-			tmdbid: {{tmdbid}}
+			tmdbid: {{tmdbid}},
+			title: '{{!details[0].replace("'", "\\'")}}'
 		};
 
 		$('#loader_text').text("Downloading subtitle to disk...");
@@ -415,7 +416,8 @@
 			sceneName: sceneName,
 			language: language,
 			hi: hi,
-			radarrId: radarrId
+			radarrId: radarrId,
+			title: '{{!details[0].replace("'", "\\'")}}'
 		};
 
 		$('#search_result').DataTable( {
@@ -489,7 +491,7 @@
 		;
 	});
 
-	function manual_get(button, episodePath, sceneName, hi, sonarrSeriesId, sonarrEpisodeId){
+	function manual_get(button, episodePath, sceneName, hi){
 		const values = {
 				subtitle: $(button).attr("data-subtitle"),
 				provider: $(button).attr("data-provider"),
@@ -497,7 +499,8 @@
 				sceneName: sceneName,
 				language: $(button).attr("data-language"),
 				hi: hi,
-				radarrId: radarrId
+				radarrId: radarrId,
+				title: '{{!details[0].replace("'", "\\'")}}'
 		};
 
 		$('#loader_text').text("Downloading subtitle to disk...");

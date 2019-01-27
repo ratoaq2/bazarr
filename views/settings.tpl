@@ -1113,6 +1113,99 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Random user-agents</label>
+                                </div>
+                                <div class="one wide column">
+                                    <div id="settings_addic7ed_random_agents" class="ui toggle checkbox" data-randomagents={{settings.addic7ed.getboolean('random_agents')}}>
+                                        <input type="checkbox" name="settings_addic7ed_random_agents">
+                                        <label></label>
+                                    </div>
+                                </div>
+                                <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Use random user agents" data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Argenteam</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="argenteam" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                            <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Spanish subtitles provider." data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="argenteam_option" class="ui grid container">
+
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Assrt</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="assrt" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                            <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Chinese subtitles provider." data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="assrt_option" class="ui grid container">
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Token</label>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui fluid input">
+                                        <input name="settings_assrt_token" type="text" value="{{settings.assrt.token if settings.assrt.token != None else ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Hosszupuska</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="hosszupuska" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                            <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Hungarian subtitles provider." data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="hosszupuska_option" class="ui grid container">
+
                         </div>
 
                         <div class="middle aligned row">
@@ -1123,6 +1216,13 @@
                                 <div id="legendastv" class="ui toggle checkbox provider">
                                     <input type="checkbox">
                                     <label></label>
+                                </div>
+                            </div>
+                            <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Brazilian Portuguese subtitles provider." data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1147,6 +1247,28 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Napiprojekt</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="napiprojekt" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                            <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Polish subtitles provider." data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="napiprojekt_option" class="ui grid container">
+
                         </div>
 
                         <div class="middle aligned row">
@@ -1181,6 +1303,60 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>VIP</label>
+                                </div>
+                                <div class="one wide column">
+                                    <div id="settings_opensubtitles_vip" class="ui toggle checkbox" data-osvip={{settings.opensubtitles.getboolean('vip')}}>
+                                        <input type="checkbox" name="settings_opensubtitles_vip">
+                                        <label></label>
+                                    </div>
+                                </div>
+                                <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="ad-free subs, 1000 subs/day, no-cache VIP server: http://v.ht/osvip" data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Use SSL</label>
+                                </div>
+                                <div class="one wide column">
+                                    <div id="settings_opensubtitles_ssl" class="ui toggle checkbox" data-osssl={{settings.opensubtitles.getboolean('ssl')}}>
+                                        <input type="checkbox" name="settings_opensubtitles_ssl">
+                                        <label></label>
+                                    </div>
+                                </div>
+                                <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Use SSL to connect to OpenSubtitles" data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Skip wrong FPS</label>
+                                </div>
+                                <div class="one wide column">
+                                    <div id="settings_opensubtitles_skip_wrong_fps" class="ui toggle checkbox" data-osfps={{settings.opensubtitles.getboolean('skip_wrong_fps')}}>
+                                        <input type="checkbox" name="settings_opensubtitles_skip_wrong_fps">
+                                        <label></label>
+                                    </div>
+                                </div>
+                                <div class="collapsed column">
+                                <div class="collapsed center aligned column">
+                                    <div class="ui basic icon" data-tooltip="Skip subtitles with a mismatched FPS value; might lead to more results when disabled but also to more false-positives." data-inverted="">
+                                        <i class="help circle large icon"></i>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="middle aligned row">
@@ -1200,31 +1376,61 @@
 
                         <div class="middle aligned row">
                             <div class="right aligned four wide column">
-                                <label>Shooter</label>
+                                <label>Subscene</label>
                             </div>
                             <div class="one wide column">
-                                <div id="shooter" class="ui toggle checkbox provider">
+                                <div id="subscene" class="ui toggle checkbox provider">
                                     <input type="checkbox">
                                     <label></label>
                                 </div>
                             </div>
                         </div>
-                        <div id="shooter_option" class="ui grid container">
+                        <div id="subscene_option" class="ui grid container">
 
                         </div>
 
                         <div class="middle aligned row">
                             <div class="right aligned four wide column">
-                                <label>TheSubDB</label>
+                                <label>Subscenter</label>
                             </div>
                             <div class="one wide column">
-                                <div id="thesubdb" class="ui toggle checkbox provider">
+                                <div id="subscenter" class="ui toggle checkbox provider">
                                     <input type="checkbox">
                                     <label></label>
                                 </div>
                             </div>
                         </div>
-                        <div id="thesubdb_option" class="ui grid container">
+                        <div id="subscenter_option" class="ui grid container">
+
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Supersubtitles</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="supersubtitles" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="supersubtitles_option" class="ui grid container">
+
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Titlovi</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="titlovi" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="titlovi_option" class="ui grid container">
 
                         </div>
 
@@ -1242,7 +1448,6 @@
                         <div id="tvsubtitles_option" class="ui grid container">
 
                         </div>
-
 
                         <div class="middle aligned row">
                             <div class="eleven wide column">
@@ -1508,8 +1713,8 @@
         });
     });
 
-    % from get_argv import no_update
-    % if no_update is True:
+    % from get_args import args
+    % if args.no_update:
     $("#div_update").hide();
     % end
 
@@ -1583,6 +1788,30 @@
                 $("#settings_adaptive_searching").checkbox('check');
             } else {
                 $("#settings_adaptive_searching").checkbox('uncheck');
+            }
+
+    if ($('#settings_addic7ed_random_agents').data("randomagents") === "True") {
+                $("#settings_addic7ed_random_agents").checkbox('check');
+            } else {
+                $("#settings_addic7ed_random_agents").checkbox('uncheck');
+            }
+
+    if ($('#settings_opensubtitles_vip').data("osvip") === "True") {
+                $("#settings_opensubtitles_vip").checkbox('check');
+            } else {
+                $("#settings_opensubtitles_vip").checkbox('uncheck');
+            }
+
+    if ($('#settings_opensubtitles_ssl').data("osssl") === "True") {
+                $("#settings_opensubtitles_ssl").checkbox('check');
+            } else {
+                $("#settings_opensubtitles_ssl").checkbox('uncheck');
+            }
+
+    if ($('#settings_opensubtitles_skip_wrong_fps').data("osfps") === "True") {
+                $("#settings_opensubtitles_skip_wrong_fps").checkbox('check');
+            } else {
+                $("#settings_opensubtitles_skip_wrong_fps").checkbox('uncheck');
             }
 
     if ($('#settings_use_postprocessing').data("postprocessing") === "True") {

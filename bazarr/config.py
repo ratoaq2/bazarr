@@ -3,7 +3,7 @@ import os
 
 from simpleconfigparser import simpleconfigparser
 
-from get_argv import config_dir
+from get_args import args
 
 defaults = {
     'general': {
@@ -33,12 +33,12 @@ defaults = {
         'use_embedded_subs': 'True',
         'adaptive_searching': 'False',
         'enabled_providers': ''
-},
+    },
     'auth': {
         'type': 'None',
         'username': '',
         'password': ''
-},
+    },
     'sonarr': {
         'ip': '127.0.0.1',
         'port': '8989',
@@ -64,22 +64,31 @@ defaults = {
         'username': '',
         'password': '',
         'exclude': 'localhost,127.0.0.1'
-},
+    },
     'opensubtitles': {
         'username': '',
-        'password': ''
-},
+        'password': '',
+        'use_tag_search': 'False',
+        'vip': 'False',
+        'ssl': 'False',
+        'timeout': '15',
+        'skip_wrong_fps': 'False'
+    },
     'addic7ed': {
         'username': '',
-        'password': ''
+        'password': '',
+        'random_agents': 'False'
 },
     'legendastv': {
         'username': '',
         'password': ''
-}}
+    },
+    'assrt': {
+        'token': ''
+    }}
 
 settings = simpleconfigparser(defaults=defaults)
-settings.read(os.path.join(config_dir, 'config', 'config.ini'))
+settings.read(os.path.join(args.config_dir, 'config', 'config.ini'))
 
 base_url = settings.general.base_url
 

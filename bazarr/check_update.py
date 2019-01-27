@@ -8,11 +8,12 @@ import logging
 import requests
 
 import bazarr
-from get_settings import get_general_settings
 import sqlite3
 import json
 import requests
 
+from get_args import args
+from config import settings
 
 class FakeLock(object):
     """
@@ -32,6 +33,8 @@ class FakeLock(object):
         pass
 
 
+if not args.no_update:
+    import git
 fake_lock = FakeLock()
 
 

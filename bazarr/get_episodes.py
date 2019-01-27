@@ -5,10 +5,11 @@ import requests
 import logging
 from queueconfig import q4ws
 
-from get_argv import config_dir
+from get_args import args
 from config import settings, url_sonarr
 from helper import path_replace
-from list_subtitles import list_missing_subtitles, store_subtitles, series_full_scan_subtitles, movies_full_scan_subtitles
+from list_subtitles import list_missing_subtitles, store_subtitles, series_full_scan_subtitles, \
+    movies_full_scan_subtitles
 
 
 def update_all_episodes():
@@ -31,9 +32,9 @@ def sync_episodes():
     apikey_sonarr = settings.sonarr.apikey
     
     # Open database connection
-    db = sqlite3.connect(os.path.join(config_dir, 'db', 'bazarr.db'), timeout=30)
+    db = sqlite3.connect(os.path.join(args.config_dir, 'db', 'bazarr.db'), timeout=30)
     c = db.cursor()
-
+    
     # Get current episodes id in DB
     current_episodes_db = c.execute('SELECT sonarrEpisodeId, path FROM table_episodes').fetchall()
 
@@ -41,13 +42,13 @@ def sync_episodes():
     current_episodes_sonarr = []
     episodes_to_update = []
     episodes_to_add = []
-
+    
     # Get sonarrId for each series from database
     seriesIdList = c.execute("SELECT sonarrSeriesId, title FROM table_shows").fetchall()
-
+    
     # Close database connection
     c.close()
-
+    
     for seriesId in seriesIdList:
         q4ws.append('Getting episodes data for this show: ' + seriesId[1])
         # Get episodes data for a series from Sonarr
@@ -74,27 +75,37 @@ def sync_episodes():
                                     sceneName = episode['episodeFile']['sceneName']
                                 else:
                                     sceneName = None
-
+                                
                                 # Add episodes in sonarr to current episode list
                                 current_episodes_sonarr.append(episode['id'])
-
+                                
                                 if episode['id'] in current_episodes_db_list:
-                                    episodes_to_update.append((episode['title'], episode['episodeFile']['path'], episode['seasonNumber'], episode['episodeNumber'], sceneName, str(bool(episode['monitored'])), episode['id']))
+                                    episodes_to_update.append((episode['title'], episode['episodeFile']['path'],
+                                                               episode['seasonNumber'], episode['episodeNumber'],
+                                                               sceneName, str(bool(episode['monitored'])),
+                                                               episode['id']))
                                 else:
-                                    episodes_to_add.append((episode['seriesId'], episode['id'], episode['title'], episode['episodeFile']['path'], episode['seasonNumber'], episode['episodeNumber'], sceneName, str(bool(episode['monitored']))))
-
+                                    episodes_to_add.append((episode['seriesId'], episode['id'], episode['title'],
+                                                            episode['episodeFile']['path'], episode['seasonNumber'],
+                                                            episode['episodeNumber'], sceneName,
+                                                            str(bool(episode['monitored']))))
+    
     removed_episodes = list(set(current_episodes_db_list) - set(current_episodes_sonarr))
-
+    
     # Update or insert movies in DB
-    db = sqlite3.connect(os.path.join(config_dir, 'db', 'bazarr.db'), timeout=30)
+    db = sqlite3.connect(os.path.join(args.config_dir, 'db', 'bazarr.db'), timeout=30)
     c = db.cursor()
-
-    updated_result = c.executemany('''UPDATE table_episodes SET title = ?, path = ?, season = ?, episode = ?, scene_name = ?, monitored = ? WHERE sonarrEpisodeId = ?''', episodes_to_update)
+    
+    updated_result = c.executemany(
+        '''UPDATE table_episodes SET title = ?, path = ?, season = ?, episode = ?, scene_name = ?, monitored = ? WHERE sonarrEpisodeId = ?''',
+        episodes_to_update)
     db.commit()
-
-    added_result = c.executemany('''INSERT OR IGNORE INTO table_episodes(sonarrSeriesId, sonarrEpisodeId, title, path, season, episode, scene_name, monitored) VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', episodes_to_add)
+    
+    added_result = c.executemany(
+        '''INSERT OR IGNORE INTO table_episodes(sonarrSeriesId, sonarrEpisodeId, title, path, season, episode, scene_name, monitored) VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
+        episodes_to_add)
     db.commit()
-
+    
     for removed_episode in removed_episodes:
         c.execute('DELETE FROM table_episodes WHERE sonarrEpisodeId = ?', (removed_episode,))
         db.commit()
@@ -111,8 +122,8 @@ def sync_episodes():
         store_subtitles(path_replace(altered_episode[1]))
 
     logging.debug('BAZARR All episodes synced from Sonarr into database.')
-
+    
     list_missing_subtitles()
     logging.debug('BAZARR All missing subtitles updated in database.')
-
+    
     q4ws.append('Episodes sync from Sonarr ended.')

@@ -32,7 +32,7 @@
 		</style>
 	</head>
 	<body>
-		% from get_argv import config_dir
+		% from get_args import args
 
 		% import os
 		% import sqlite3
@@ -50,7 +50,7 @@
         %    monitored_only_query_string_radarr = ""
         %end
 
-        % conn = sqlite3.connect(os.path.join(config_dir, 'db', 'bazarr.db'), timeout=30)
+        % conn = sqlite3.connect(os.path.join(args.config_dir, 'db', 'bazarr.db'), timeout=30)
     	% c = conn.cursor()
 		% wanted_series = c.execute("SELECT COUNT(*) FROM table_episodes WHERE missing_subtitles != '[]'" + monitored_only_query_string_sonarr).fetchone()
 		% wanted_movies = c.execute("SELECT COUNT(*) FROM table_movies WHERE missing_subtitles != '[]'" + monitored_only_query_string_radarr).fetchone()
