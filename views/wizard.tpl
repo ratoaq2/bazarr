@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
     <head>
         <!DOCTYPE html>
         <script src="{{base_url}}static/jquery/jquery-latest.min.js"></script>
@@ -24,8 +24,8 @@
             }
             #fondblanc {
                 background-color: #ffffff;
-                border-radius: 0px;
-                box-shadow: 0px 0px 5px 5px #ffffff;
+                border-radius: 0;
+                box-shadow: 0 0 5px 5px #ffffff;
                 margin-top: 32px;
                 margin-bottom: 3em;
                 padding: 1em;
@@ -48,7 +48,7 @@
     </head>
     <body>
         <div id='loader' class="ui page dimmer">
-            <div class="ui indeterminate text loader">Loading...</div>
+            <div class="ui indeterminate text loader">Saving settings...</div>
         </div>
 
         <div class="ui modal" id="browsemodal">
@@ -105,7 +105,7 @@
                             <div class="five wide column">
                                 <div class='field'>
                                     <div class="ui fluid input">
-                                        <input name="settings_general_ip" type="text" value="{{settings_general[0]}}">
+                                        <input name="settings_general_ip" type="text" value="{{settings.general.ip}}">
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                             <div class="five wide column">
                                 <div class='field'>
                                     <div class="ui fluid input">
-                                        <input name="settings_general_port" type="text" value="{{settings_general[1]}}">
+                                        <input name="settings_general_port" type="text" value="{{settings.general.port}}">
                                     </div>
                                 </div>
                             </div>
@@ -152,10 +152,10 @@
                             </div>
                             <div class="five wide column">
                                 <div class="ui fluid input">
-                                    %if settings_general[2] == None:
+                                    %if settings.general.base_url is None:
                                     %	base_url = "/"
                                     %else:
-                                    %	base_url = settings_general[2]
+                                    %	base_url = settings.general.base_url
                                     %end
                                     <input name="settings_general_baseurl" type="text">
                                 </div>
@@ -179,8 +179,8 @@
                 <div class="twelve wide column">
                     <div class="ui grid">
                         %import ast
-                        %if settings_general[3] is not None:
-                        %	path_substitutions = ast.literal_eval(settings_general[3])
+                        %if settings.general.path_mappings is not None:
+                        %	path_substitutions = ast.literal_eval(settings.general.path_mappings)
                         %else:
                         %	path_substitutions = []
                         %end
@@ -253,8 +253,8 @@
                 <div class="twelve wide column">
                     <div class="ui grid">
                         %import ast
-                        %if settings_general[14] is not None:
-                        %	path_substitutions_movie = ast.literal_eval(settings_general[14])
+                        %if settings.general.path_mappings_movie is not None:
+                        %	path_substitutions_movie = ast.literal_eval(settings.general.path_mappings_movie)
                         %else:
                         %	path_substitutions_movie = []
                         %end
@@ -337,24 +337,197 @@
                     </div>
                 <div class="ui dividing header">Subtitles providers</div>
                 <div class="twelve wide column">
-                    <div class="ui orange message">
-                        <p>Be aware that the more providers you enable, the longer it will take everytime you search for a subtitles.</p>
-                    </div>
                     <div class="ui grid">
                         <div class="middle aligned row">
                             <div class="right aligned four wide column">
-                                <label>Enabled providers</label>
+                                <label>Addic7ed</label>
                             </div>
+                            <div class="one wide column">
+                                <div id="addic7ed" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="addic7ed_option" class="ui grid container">
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Username</label>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui fluid input">
+                                        <input name="settings_addic7ed_username" type="text" value="{{settings.addic7ed.username if settings.addic7ed.username != None else ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Password</label>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui fluid input">
+                                        <input name="settings_addic7ed_password" type="password" value="{{settings.addic7ed.password if settings.addic7ed.password != None else ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>LegendasTV</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="legendastv" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="legendastv_option" class="ui grid container">
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Username</label>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui fluid input">
+                                        <input name="settings_legendastv_username" type="text" value="{{settings.legendastv.username if settings.legendastv.username != None else ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Password</label>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui fluid input">
+                                        <input name="settings_legendastv_password" type="password" value="{{settings.legendastv.password if settings.legendastv.password != None else ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>OpenSubtitles</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="opensubtitles" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="opensubtitles_option" class="ui grid container">
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Username</label>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui fluid input">
+                                        <input name="settings_opensubtitles_username" type="text" value="{{settings.opensubtitles.username if settings.opensubtitles.username != None else ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="middle aligned row">
+                                <div class="right aligned six wide column">
+                                    <label>Password</label>
+                                </div>
+                                <div class="six wide column">
+                                    <div class="ui fluid input">
+                                        <input name="settings_opensubtitles_password" type="password" value="{{settings.opensubtitles.password if settings.opensubtitles.password != None else ''}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Podnapisi</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="podnapisi" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="podnapisi_option" class="ui grid container">
+
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Shooter</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="shooter" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="shooter_option" class="ui grid container">
+
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>Subscenter</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="subscenter" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="subcenter_option" class="ui grid container">
+
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>TheSubDB</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="thesubdb" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="thesubdb_option" class="ui grid container">
+
+                        </div>
+
+                        <div class="middle aligned row">
+                            <div class="right aligned four wide column">
+                                <label>TVSubtitles</label>
+                            </div>
+                            <div class="one wide column">
+                                <div id="tvsubtitles" class="ui toggle checkbox provider">
+                                    <input type="checkbox">
+                                    <label></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tvsubtitles_option" class="ui grid container">
+
+                        </div>
+
+
+                        <div class="middle aligned row">
                             <div class="eleven wide column">
-                                <div class='field'>
-                                    <select name="settings_subliminal_providers" id="settings_providers" multiple="" class="ui fluid selection dropdown">
+                                <div class='field' hidden>
+                                    <select name="settings_subliminal_providers" id="settings_providers" multiple="" class="ui fluid search selection dropdown">
                                         <option value="">Providers</option>
                                         %enabled_providers = []
+                                        %providers = settings.general.enabled_providers.lower().split(',')
                                         %for provider in settings_providers:
-                                        <option value="{{provider[0]}}">{{provider[0]}}</option>
-                                        %if provider[1] == True:
-                                        %	enabled_providers.append(str(provider[0]))
+                                        <option value="{{provider}}">{{provider}}</option>
                                         %end
+                                        %for provider in providers:
+                                        %enabled_providers.append(str(provider))
                                         %end
                                     </select>
                                 </div>
@@ -370,7 +543,7 @@
                                 <label>Single language</label>
                             </div>
                             <div class="one wide column">
-                                <div id="settings_single_language" class="ui toggle checkbox"  data-single-language={{settings_general[7]}}>
+                                <div id="settings_single_language" class="ui toggle checkbox"  data-single-language={{settings.general.getboolean('single_language')}}>
                                     <input name="settings_general_single_language" type="checkbox">
                                     <label></label>
                                 </div>
@@ -390,7 +563,7 @@
                             </div>
                             <div class="eleven wide column">
                                 <div class='field'>
-                                    <select name="settings_subliminal_languages" id="settings_languages" multiple="" class="ui fluid selection dropdown">
+                                    <select name="settings_subliminal_languages" id="settings_languages" multiple="" class="ui fluid search selection dropdown">
                                         <option value="">Languages</option>
                                         %enabled_languages = []
                                         %for language in settings_languages:
@@ -436,8 +609,8 @@
                             </div>
                             <div class="eleven wide column">
                                 <div class='field'>
-                                    <select name="settings_serie_default_languages" id="settings_serie_default_languages" multiple="" class="ui fluid selection dropdown">
-                                        %if settings_general[7] is False:
+                                    <select name="settings_serie_default_languages" id="settings_serie_default_languages" multiple="" class="ui fluid search selection dropdown">
+                                        %if not settings.general.getboolean('single_language'):
                                         <option value="">Languages</option>
                                         %else:
                                         <option value="None">None</option>
@@ -493,8 +666,8 @@
                             </div>
                             <div class="eleven wide column">
                                 <div class='field'>
-                                    <select name="settings_movie_default_languages" id="settings_movie_default_languages" multiple="" class="ui fluid selection dropdown">
-                                        %if settings_general[7] is False:
+                                    <select name="settings_movie_default_languages" id="settings_movie_default_languages" multiple="" class="ui fluid search selection dropdown">
+                                        %if not settings.general.getboolean('single_language'):
                                         <option value="">Languages</option>
                                         %else:
                                         <option value="None">None</option>
@@ -577,7 +750,7 @@
                             <div class="five wide column">
                                 <div class='field'>
                                     <div class="ui fluid input">
-                                        <input id="settings_sonarr_ip" name="settings_sonarr_ip" class="sonarr_config" type="text" value="{{settings_sonarr[0]}}">
+                                        <input id="settings_sonarr_ip" name="settings_sonarr_ip" class="sonarr_config" type="text" value="{{settings.sonarr.ip}}">
                                     </div>
                                 </div>
                             </div>
@@ -595,7 +768,7 @@
                             <div class="five wide column">
                                 <div class='field'>
                                     <div class="ui fluid input">
-                                        <input id="settings_sonarr_port" name="settings_sonarr_port" class="sonarr_config" type="text" value="{{settings_sonarr[1]}}">
+                                        <input id="settings_sonarr_port" name="settings_sonarr_port" class="sonarr_config" type="text" value="{{settings.sonarr.port}}">
                                     </div>
                                 </div>
                             </div>
@@ -651,6 +824,25 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="sonarr_hide middle aligned row">
+                        <div class="right aligned four wide column">
+                            <label>Download only monitored</label>
+                        </div>
+                        <div class="one wide column">
+                            <div id="settings_only_monitored_sonarr" class="ui toggle checkbox" data-monitored={{settings.sonarr.getboolean('only_monitored')}}>
+                                <input name="settings_sonarr_only_monitored" type="checkbox">
+                                <label></label>
+                            </div>
+                        </div>
+                        <div class="collapsed column">
+                            <div class="collapsed center aligned column">
+                                <div class="ui basic icon" data-tooltip="Automatic download of subtitles will happen only for monitored episodes in Sonarr." data-inverted="">
+                                    <i class="help circle large icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -688,7 +880,7 @@
                                 <label>Use Radarr</label>
                             </div>
                             <div class="one wide column">
-                                <div id="settings_use_radarr" class="ui toggle checkbox" data-enabled={{settings_general[13]}}>
+                                <div id="settings_use_radarr" class="ui toggle checkbox">
                                     <input name="settings_general_use_radarr" type="checkbox">
                                     <label></label>
                                 </div>
@@ -709,7 +901,7 @@
                             <div class="five wide column">
                                 <div class='field'>
                                     <div class="ui fluid input">
-                                        <input id="settings_radarr_ip" name="settings_radarr_ip" type="text" class="radarr_config" value="{{settings_radarr[0]}}">
+                                        <input id="settings_radarr_ip" name="settings_radarr_ip" type="text" class="radarr_config" value="{{settings.radarr.ip}}">
                                     </div>
                                 </div>
                             </div>
@@ -727,7 +919,7 @@
                             <div class="five wide column">
                                 <div class='field'>
                                     <div class="ui fluid input">
-                                        <input id="settings_radarr_port" name="settings_radarr_port" type="text" class="radarr_config" value="{{settings_radarr[1]}}">
+                                        <input id="settings_radarr_port" name="settings_radarr_port" type="text" class="radarr_config" value="{{settings.radarr.port}}">
                                     </div>
                                 </div>
                             </div>
@@ -783,6 +975,25 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="radarr_hide middle aligned row">
+                        <div class="right aligned four wide column">
+                            <label>Download only monitored</label>
+                        </div>
+                        <div class="one wide column">
+                            <div id="settings_only_monitored_radarr" class="ui toggle checkbox" data-monitored={{settings.radarr.getboolean('only_monitored')}}>
+                                <input name="settings_radarr_only_monitored" type="checkbox">
+                                <label></label>
+                            </div>
+                        </div>
+                        <div class="collapsed column">
+                            <div class="collapsed center aligned column">
+                                <div class="ui basic icon" data-tooltip="Automatic download of subtitles will happen only for monitored movies in Radarr." data-inverted="">
+                                    <i class="help circle large icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -794,9 +1005,36 @@
 </html>
 
 <script>
-$(document).ready(function() {
+    function getQueryVariable(variable)
+    {
+           var query = window.location.search.substring(1);
+           var vars = query.split("&");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+    }
 
-  $('.next1').click(function(e) {
+    if (getQueryVariable("saved") == 'true') {
+        new Noty({
+			text: 'Settings saved.',
+			timeout: 5000,
+			progressBar: false,
+			animation: {
+				open: null,
+				close: null
+			},
+			killer: true,
+    		type: 'info',
+			layout: 'bottomRight',
+			theme: 'semanticui'
+		}).show();
+    }
+
+$(function() {
+
+  $('.next1').on('click', function(e) {
 
     e.preventDefault();
 
@@ -808,7 +1046,7 @@ $(document).ready(function() {
 
   });
 
-  $('.prev1').click(function(m) {
+  $('.prev1').on('click', function(m) {
 
     m.preventDefault();
 
@@ -820,7 +1058,7 @@ $(document).ready(function() {
 
   });
 
-  $('.next2').click(function(e) {
+  $('.next2').on('click', function(e) {
 
     e.preventDefault();
 
@@ -832,7 +1070,7 @@ $(document).ready(function() {
 
   });
 
-  $('.prev2').click(function(m) {
+  $('.prev2').on('click', function(m) {
 
     m.preventDefault();
 
@@ -844,7 +1082,7 @@ $(document).ready(function() {
 
   });
 
-  $('.next3').click(function(e) {
+  $('.next3').on('click', function(e) {
 
     e.preventDefault();
 
@@ -856,7 +1094,7 @@ $(document).ready(function() {
 
   });
 
-  $('.prev3').click(function(m) {
+  $('.prev3').on('click', function(m) {
 
     m.preventDefault();
 
@@ -869,9 +1107,7 @@ $(document).ready(function() {
   });
 
 });
-</script>
 
-<script>
     $(".sonarr_hide").hide();
     $('#settings_use_sonarr').checkbox({
         onChecked: function() {
@@ -892,19 +1128,19 @@ $(document).ready(function() {
         }
     });
 
-    if ($('#sonarr_ssl_div').data("ssl") == "True") {
+    if ($('#sonarr_ssl_div').data("ssl") === "True") {
                 $("#sonarr_ssl_div").checkbox('check');
             } else {
                 $("#sonarr_ssl_div").checkbox('uncheck');
             }
 
-    if ($('#radarr_ssl_div').data("ssl") == "True") {
+    if ($('#radarr_ssl_div').data("ssl") === "True") {
                 $("#radarr_ssl_div").checkbox('check');
             } else {
                 $("#radarr_ssl_div").checkbox('uncheck');
             }
 
-    if ($('#settings_single_language').data("single-language") == "True") {
+    if ($('#settings_single_language').data("single-language") === "True") {
                 $("#settings_single_language").checkbox('check');
             } else {
                 $("#settings_single_language").checkbox('uncheck');
@@ -913,13 +1149,13 @@ $(document).ready(function() {
     $('#settings_languages').dropdown('setting', 'onAdd', function(val, txt){
         $("#settings_serie_default_languages").append(
             $("<option></option>").attr("value", val).text(txt)
-        )
+        );
         $("#settings_movie_default_languages").append(
             $("<option></option>").attr("value", val).text(txt)
         )
     });
 
-    $('#settings_languages').dropdown('setting', 'onRemove', function(val, txt){
+    $('#settings_languages').dropdown('setting', 'onRemove', function(val){
         $("#settings_serie_default_languages").dropdown('remove selected', val);
         $("#settings_serie_default_languages option[value='" + val + "']").remove();
 
@@ -927,13 +1163,13 @@ $(document).ready(function() {
         $("#settings_movie_default_languages option[value='" + val + "']").remove();
     });
 
-    if ($('#settings_serie_default_enabled_div').data("enabled") == "True") {
+    if ($('#settings_serie_default_enabled_div').data("enabled") === "True") {
         $("#settings_serie_default_enabled_div").checkbox('check');
     } else {
         $("#settings_serie_default_enabled_div").checkbox('uncheck');
     }
 
-    if ($('#settings_serie_default_enabled_div').data("enabled") == "True") {
+    if ($('#settings_serie_default_enabled_div').data("enabled") === "True") {
         $("#settings_serie_default_languages").removeClass('disabled');
         $("#settings_serie_default_hi_div").removeClass('disabled');
     } else {
@@ -952,25 +1188,37 @@ $(document).ready(function() {
         }
     });
 
-    if ($('#settings_serie_default_hi_div').data("hi") == "True") {
+    if ($('#settings_serie_default_hi_div').data("hi") === "True") {
         $("#settings_serie_default_hi_div").checkbox('check');
     } else {
         $("#settings_serie_default_hi_div").checkbox('uncheck');
     }
 
-    if ($('#settings_movie_default_enabled_div').data("enabled") == "True") {
+    if ($('#settings_movie_default_enabled_div').data("enabled") === "True") {
         $("#settings_movie_default_enabled_div").checkbox('check');
     } else {
         $("#settings_movie_default_enabled_div").checkbox('uncheck');
     }
 
-    if ($('#settings_movie_default_enabled_div').data("enabled") == "True") {
+    if ($('#settings_movie_default_enabled_div').data("enabled") === "True") {
         $("#settings_movie_default_languages").removeClass('disabled');
         $("#settings_movie_default_hi_div").removeClass('disabled');
     } else {
         $("#settings_movie_default_languages").addClass('disabled');
         $("#settings_movie_default_hi_div").addClass('disabled');
     }
+
+    if ($('#settings_only_monitored_sonarr').data("monitored") === "True") {
+                $("#settings_only_monitored_sonarr").checkbox('check');
+            } else {
+                $("#settings_only_monitored_sonarr").checkbox('uncheck');
+            }
+
+    if ($('#settings_only_monitored_radarr').data("monitored") === "True") {
+                $("#settings_only_monitored_radarr").checkbox('check');
+            } else {
+                $("#settings_only_monitored_radarr").checkbox('uncheck');
+            }
 
     $('#settings_movie_default_enabled_div').checkbox({
         onChecked: function() {
@@ -983,7 +1231,7 @@ $(document).ready(function() {
         }
     });
 
-    if ($('#settings_movie_default_hi_div').data("hi") == "True") {
+    if ($('#settings_movie_default_hi_div').data("hi") === "True") {
         $("#settings_movie_default_hi_div").checkbox('check');
     } else {
         $("#settings_movie_default_hi_div").checkbox('uncheck');
@@ -1001,7 +1249,7 @@ $(document).ready(function() {
         $("#settings_movie_default_languages").attr('multiple');
     }
 
-    $("#settings_single_language").change(function(i, obj) {
+    $("#settings_single_language").on('change', function() {
         if ($("#settings_single_language").checkbox('is checked')) {
             $("#settings_serie_default_languages").dropdown('clear');
             $("#settings_movie_default_languages").dropdown('clear');
@@ -1032,15 +1280,13 @@ $(document).ready(function() {
     $('#settings_languages').dropdown();
     $('#settings_serie_default_languages').dropdown();
     $('#settings_movie_default_languages').dropdown();
-    %if settings_general[16] is not None:
-    $('#settings_serie_default_languages').dropdown('set selected',{{!settings_general[16]}});
+    %if settings.general.serie_default_language is not None:
+    $('#settings_serie_default_languages').dropdown('set selected',{{!settings.general.serie_default_language}});
     %end
-    %if settings_general[19] is not None:
-    $('#settings_movie_default_languages').dropdown('set selected',{{!settings_general[19]}});
+    %if settings.general.movie_default_language is not None:
+    $('#settings_movie_default_languages').dropdown('set selected',{{!settings.general.movie_default_language}});
     %end
-</script>
 
-<script>
     // form validation
     $('#wizard_form')
         .form({
@@ -1182,30 +1428,46 @@ $(document).ready(function() {
                 $('.prev3').removeClass('disabled');
                 $('.next2').removeClass('disabled');
                 $('.next3').removeClass('disabled');
-                $('#loader').addClass('active');
             }
         })
     ;
 
-    $('#settings_providers').dropdown('setting', 'onChange', function(){
-        $('.form').form('validate field', 'settings_subliminal_providers');
+    $("#settings_providers > option").each(function() {
+        $('#'+$(this).val()+'_option').hide();
     });
+
+    $("#settings_providers > option:selected").each(function() {
+        $('[id='+this.value+']').checkbox('check');
+        $('#'+$(this).val()+'_option').show();
+    });
+
+    $('.provider').checkbox({
+        onChecked: function() {
+            $('#settings_providers').dropdown('set selected', $(this).parent().attr('id'));
+            $('#'+$(this).parent().attr('id')+'_option').show();
+        },
+        onUnchecked: function() {
+            $('#settings_providers').dropdown('remove selected', $(this).parent().attr('id'));
+            $('#'+$(this).parent().attr('id')+'_option').hide();
+        }
+    });
+
     $('#settings_languages').dropdown('setting', 'onChange', function(){
         $('.form').form('validate field', 'settings_subliminal_languages');
     });
 
-    $( document ).ready(function() {
+    $(function() {
         $('.form').form('validate form');
         $('#loader').removeClass('active');
     });
 
-    $('#wizard_form').focusout(function() {
+    $('#wizard_form').on('focusout', function() {
         $('.form').form('validate form');
         $('#loader').removeClass('active');
-    })
+    });
 
 
-    $('#sonarr_validate').click(function() {
+    $('#sonarr_validate').on('click', function() {
         if ($('#sonarr_ssl_div').checkbox('is checked')) {
             protocol = 'https';
         } else {
@@ -1226,25 +1488,25 @@ $(document).ready(function() {
                 $('#loader').removeClass('active');
             }
         });
-    })
+    });
 
-    $('.sonarr_config').keyup(function() {
+    $('.sonarr_config').on('keyup', function() {
         $('#sonarr_validated').checkbox('uncheck');
         $('#sonarr_validation_result').text('You must test your Sonarr connection settings before saving settings.').css('color', 'red');
         $('.form').form('validate form');
         $('#loader').removeClass('active');
-    })
+    });
 
-    $('#settings_sonarr_ssl').change(function() {
+    $('#settings_sonarr_ssl').on('change', function() {
         $('#sonarr_validated').checkbox('uncheck');
         $('#sonarr_validation_result').text('You must test your Sonarr connection settings before saving settings.').css('color', 'red');
         $('.form').form('validate form');
         $('#loader').removeClass('active');
-    })
+    });
 
     $("#sonarr_validated").checkbox('check');
 
-    $('#radarr_validate').click(function() {
+    $('#radarr_validate').on('click', function() {
         if ($('#radarr_ssl_div').checkbox('is checked')) {
             protocol = 'https';
         } else {
@@ -1265,21 +1527,21 @@ $(document).ready(function() {
                 $('#loader').removeClass('active');
             }
         });
-    })
+    });
 
-    $('.radarr_config').keyup(function() {
+    $('.radarr_config').on('keyup', function() {
         $('#radarr_validated').checkbox('uncheck');
         $('#radarr_validation_result').text('You must test your Sonarr connection settings before saving settings.').css('color', 'red');
         $('.form').form('validate form');
         $('#loader').removeClass('active');
-    })
+    });
 
-    $('#settings_radarr_ssl').change(function() {
+    $('#settings_radarr_ssl').on('change', function() {
         $('#radarr_validated').checkbox('uncheck');
         $('#radarr_validation_result').text('You must test your Sonarr connection settings before saving settings.').css('color', 'red');
         $('.form').form('validate form');
         $('#loader').removeClass('active');
-    })
+    });
 
     $("#radarr_validated").checkbox('check');
 </script>

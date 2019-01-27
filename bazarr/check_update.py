@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import platform
 import re
@@ -8,6 +9,9 @@ import requests
 
 import bazarr
 from get_settings import get_general_settings
+import sqlite3
+import json
+import requests
 
 
 class FakeLock(object):

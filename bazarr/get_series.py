@@ -1,22 +1,24 @@
-from get_argv import config_dir
-
+# coding=utf-8
 import os
 import sqlite3
 import requests
 import logging
+from queueconfig import q4ws
+import datetime
 
-from get_settings import get_general_settings
+from get_argv import config_dir
+from config import settings, url_sonarr
 from list_subtitles import list_missing_subtitles
 
-def update_series():
-    from get_settings import get_sonarr_settings
-    url_sonarr = get_sonarr_settings()[6]
-    apikey_sonarr = get_sonarr_settings()[4]
-    serie_default_enabled = get_general_settings()[15]
-    serie_default_language = get_general_settings()[16]
-    serie_default_hi = get_general_settings()[17]
 
-    if apikey_sonarr == None:
+def update_series():
+    q4ws.append("Update series list from Sonarr is running...")
+    apikey_sonarr = settings.sonarr.apikey
+    serie_default_enabled = settings.general.getboolean('serie_default_enabled')
+    serie_default_language = settings.general.serie_default_language
+    serie_default_hi = settings.general.serie_default_hi
+
+    if apikey_sonarr is None:
         pass
     else:
         get_profile_list()
@@ -36,7 +38,7 @@ def update_series():
             logging.exception("BAZARR Error trying to get series from Sonarr.")
         else:
             # Open database connection
-            db = sqlite3.connect(os.path.join(config_dir, 'db/bazarr.db'), timeout=30)
+            db = sqlite3.connect(os.path.join(config_dir, 'db', 'bazarr.db'), timeout=30)
             c = db.cursor()
 
             # Get current shows in DB
@@ -51,6 +53,7 @@ def update_series():
             series_to_add = []
 
             for show in r.json():
+                q4ws.append("Getting series data for this show: " + show['title'])
                 try:
                     overview = unicode(show['overview'])
                 except:
@@ -77,7 +80,7 @@ def update_series():
                         series_to_add.append((show["title"], show["path"], show["tvdbId"], show["tvdbId"], show["tvdbId"], show["id"], overview, poster, fanart, profile_id_to_language(show['qualityProfileId']), show['sortTitle']))
 
             # Update or insert series in DB
-            db = sqlite3.connect(os.path.join(config_dir, 'db/bazarr.db'), timeout=30)
+            db = sqlite3.connect(os.path.join(config_dir, 'db', 'bazarr.db'), timeout=30)
             c = db.cursor()
 
             updated_result = c.executemany('''UPDATE table_shows SET title = ?, path = ?, tvdbId = ?, sonarrSeriesId = ?, overview = ?, poster = ?, fanart = ?, `audio_language` = ? , sortTitle = ? WHERE tvdbid = ?''', series_to_update)
@@ -99,17 +102,17 @@ def update_series():
             for item in current_shows_db_list:
                 if item not in current_shows_sonarr:
                     deleted_items.append(tuple([item]))
-            db = sqlite3.connect(os.path.join(config_dir, 'db/bazarr.db'), timeout=30)
+            db = sqlite3.connect(os.path.join(config_dir, 'db', 'bazarr.db'), timeout=30)
             c = db.cursor()
             c.executemany('DELETE FROM table_shows WHERE tvdbId = ?',deleted_items)
             db.commit()
             db.close()
 
+    q4ws.append("Update series list from Sonarr is ended.")
+
+
 def get_profile_list():
-    from get_settings import get_sonarr_settings
-    url_sonarr = get_sonarr_settings()[6]
-    # url_sonarr_short = get_sonarr_settings()[5]
-    apikey_sonarr = get_sonarr_settings()[4]
+    apikey_sonarr = settings.sonarr.apikey
 
     # Get profiles data from Sonarr
     error = False
@@ -154,6 +157,7 @@ def get_profile_list():
             sonarr_version = 3
             for profile in profiles_json_v3.json():
                 profiles_list.append([profile['id'], profile['name'].capitalize()])
+
 
 def profile_id_to_language(id):
     for profile in profiles_list:
